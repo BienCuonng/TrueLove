@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="hinh-nen-trai-tim-21.jpg" type="">
+    <title>Lựa Chọn</title>
+    <style>
+        .khung {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .khung1 {
+            width: 1200px;
+            /* đặt kích thước muốn */
+            height: 700px;
+            /* đặt kích thước muốn */
+            background-color: blueviolet;
+            box-shadow: 0 0 50px rgba(245, 244, 244, 0.5);
+        }
+    </style>
+</head>
+
+<body style="background-image: url('background.jpg');">
+    <div class="khung">
+        <div class="khung1">
+            <label
+                style="color: white;font-size: x-large;display: flex; text-align: center;align-items: center;justify-content: center;margin-top: 50px;margin-top: 20%;"
+                for="">
+                Bạn Hãy Chọn Đáp Án trong Những Câu Hỏi Của Tui Nhé
+            </label>
+            <input style="margin-left: 25%;margin-top: 10%; height: 10%; width: 50%; cursor: pointer;" type="button"
+                id="oke" value="Oke">
+            <input style="margin-left: 25%;margin-top: 1%; height: 10%; width: 50%; cursor: pointer;" type="button"
+                id="exit" value="Exit">
+
+
+
+
+
+        </div>
+
+    </div>
+    <script>
+        document.getElementById("oke").addEventListener("click", function () {
+            window.location.href = "Firebase v10 CRUD.html";
+        });
+        document.getElementById("exit").addEventListener("click", function () {
+            window.location.href = "camon.html";
+        });
+
+    </script>
+</body>
+
+</html>

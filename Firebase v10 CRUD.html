@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="hinh-nen-trai-tim-21.jpg" type="">
+
+    <title>Thông Tin</title>
+    <style>
+        label {
+            display: inline-block;
+            font-size: 16px;
+            font-family: 'Times New Roman', Times, serif;
+            width: 110px;
+            color: rgb(21, 3, 36);
+            background-color: aqua;
+        }
+
+        input,
+        select {
+            width: 180px;
+            height: 30px;
+            font-size: 16px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        button {
+            height: 30px;
+            width: 70px;
+            cursor: pointer;
+        }
+
+        body {
+            background-image: url('background.jpg');
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div
+        style="border: 1px solid rgb(255, 255, 255); width: 1000px; display: flex;flex-direction: row;box-shadow: 0 0 50px rgba(245, 244, 244, 0.5);">
+        <div style="width: 50%; border: 5px solid white;">
+            <h2 style="color: aliceblue;text-align: center;margin-top: 35%;">Welcome to My Heart</h2>
+
+        </div>
+        <div style="width: 100%; height: auto;text-align: center;">
+            <label for="">Họ Của Bạn</label>
+            <input type="text" name="" id="FnameInp">
+            <br><br>
+
+            <label for="">Tên Của Bạn</label>
+            <input type="text" name="" id="LnameInp">
+            <br><br>
+
+            <label for="">Đánh Giá về Tui</label>
+            <select name="" id="DeptInp">
+                <option value="Development">Okela Đó</option>
+                <option value="Testing">Bình Thường</option>
+                <option value="Management">Không Ổn</option>
+                <option value="Administration">Tệ Vãi L**</option>
+            </select>
+            <br><br>
+
+            <label for="">Được làm quen với bạn hong</label>
+            <select name="" id="SwimInp">
+                <option value="yes">Được Chớ</option>
+                <option value="no">Không </option>
+            </select>
+            <br><br>
+
+            <label for="">Tui Xứng đáng được nhiu điểm</label>
+            <input type="number" name="" id="CnicInp">
+            <br><br>
+            <button id="AddBtn">Xong</button>
+            <button id="RetBtn">Retrieve</button>
+            <button id="UpdBtn">Update</button>
+            <button id="DelBtn">Delete</button>
+            <input style="width: 10%; cursor: pointer;" type="button" value="Exit" id="nutexit">
+
+        </div>
+
+    </div>
+
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzh8DScM9s50LgiYiTeUw-3sQXySsEdBc",
+            authDomain: "fir-v10-9444f.firebaseapp.com",
+            databaseURL: "https://fir-v10-9444f-default-rtdb.firebaseio.com",
+            projectId: "fir-v10-9444f",
+            storageBucket: "fir-v10-9444f.appspot.com",
+            messagingSenderId: "427037303075",
+            appId: "1:427037303075:web:a37cda8383a7496fd0ac96"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        import { getDatabase, ref, child, get, set, update, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js"
+
+        const db = getDatabase();
+
+        let FnameInp = document.getElementById('FnameInp');
+        let LnameInp = document.getElementById('LnameInp');
+        let DeptInp = document.getElementById('DeptInp');
+        let SwimInp = document.getElementById('SwimInp');
+        let CnicInp = document.getElementById('CnicInp');
+
+        let AddBtn = document.getElementById('AddBtn')
+        let RetBtn = document.getElementById('RetBtn')
+        let UpdBtn = document.getElementById('UpdBtn')
+        let DelBtn = document.getElementById('DelBtn')
+
+        function AddData() {
+            set(ref(db, 'EmployeeSet/' + CnicInp.value), {
+                nameofemployee: { firstname: FnameInp.value, lastname: LnameInp.value },
+                department: DeptInp.value,
+                canswim: (SwimInp.value == "yes"),
+                cnic: Number(CnicInp.value)
+
+            })
+                .then(() => {
+                    alert("May da lam thanh cong");
+                })
+                .catch((error) => {
+                    alert("May da lam deo duoc");
+                    console.log(error);
+                })
+        }
+
+        function RetData() {
+            const dbRef = ref(db);
+
+            get(child(dbRef, 'EmpoyeeSet/' + CnicInp.value)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    FnameInp.value = snapshot.val().nameofemployee.firstname;
+                    LnameInp.value = snapshot.val().nameofemployee.lastname;
+                    DeptInp.value = snapshot.val().nameofemployee.department;
+                    SwimInp.value = (snapshot.val().canswim) ? "yes" : "no";
+                }
+                else {
+                    alert("Employee does not exist")
+                }
+            })
+                .catch((error) => {
+                    alert("May da lam deo duoc");
+                    console.log(error);
+                })
+
+
+
+        }
+        function UpdateData() {
+            update(ref(db, 'EmployeeSet/' + CnicInp.value), {
+                nameofemployee: { firstname: FnameInp.value, lastname: LnameInp.value },
+                department: DeptInp.value,
+                canswim: (SwimInp.value == "yes"),
+
+            }).then(() => {
+                alert("May da update thanh cong");
+            })
+                .catch((error) => {
+                    alert("May da lam deo duoc");
+                    console.log(error);
+                })
+        }
+        function DeleteData() {
+            remove(ref(db, 'EmployeeSet/' + CnicInp.value))
+                .then(() => {
+                    alert("May da delete thanh cong");
+                })
+                .catch((error) => {
+                    alert("May da lam deo duoc");
+                    console.log(error);
+                })
+        }
+
+        AddBtn.addEventListener('click', AddData);
+        RetBtn.addEventListener('click', RetData);
+        UpdBtn.addEventListener('click', UpdateData);
+        DelBtn.addEventListener('click', AddData);
+    </script>
+    <script>
+        document.getElementById("nutexit").addEventListener("click", function () {
+            window.location.href = "camon.html";
+        }); 
+    </script>
+</body>
+
+</html>
